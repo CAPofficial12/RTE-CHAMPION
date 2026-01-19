@@ -62,6 +62,9 @@ public class Drivetrain extends OpMode {
         panelsTelemetry.debug("X", imu.getPosX(DistanceUnit.INCH));
         panelsTelemetry.debug("Y", imu.getPosY(DistanceUnit.INCH));
         panelsTelemetry.debug("Heading", imu.getHeading(AngleUnit.DEGREES));
+        panelsTelemetry.addData("Gamepad 1", gamepad1.toString());
+        panelsTelemetry.addData("Gamepad 2", gamepad2.toString());
+
         panelsTelemetry.update(telemetry);
 
         // If you press the A button, then you reset the Yaw to be zero from the way
