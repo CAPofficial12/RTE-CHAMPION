@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "Robot: Field Relative Mecanum Drive")
+@TeleOp(name = "Driving in my car")
 public class Drivetrain extends OpMode {
     // This declares the four motors needed
     private TelemetryManager panelsTelemetry; // Panels Telemetry instance
@@ -69,7 +69,7 @@ public class Drivetrain extends OpMode {
 
         // If you press the A button, then you reset the Yaw to be zero from the way
         // the robot is currently pointing
-        if (gamepad1.a) {
+        if (gamepad1.circle) {
             imu.resetPosAndIMU();
         }
         // If you press the left bumper, you get a drive from the point of view of the robot
@@ -84,6 +84,20 @@ public class Drivetrain extends OpMode {
             Robot = true;
         } else if(gamepad1.right_bumper)  {
             Robot = false;
+        }
+
+        if (gamepad1.triangle){
+            frontLeftDrive.setPower(1);
+            frontRightDrive.setPower(1);
+            backLeftDrive.setPower(1);
+            backRightDrive.setPower(1);
+        }
+
+        if (gamepad1.square){
+            frontLeftDrive.setPower(-1);
+            frontRightDrive.setPower(-1);
+            backLeftDrive.setPower(-1);
+            backRightDrive.setPower(-1);
         }
     }
 
