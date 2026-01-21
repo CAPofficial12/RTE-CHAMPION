@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @TeleOp(name = "Shooter Tuning")
-public class Shooter extends OpMode {
+public class Shooter_tune extends OpMode {
     System_init system_init = new System_init();
 
     double[] step = {100,10,1,0.1,0.01,0.001};
