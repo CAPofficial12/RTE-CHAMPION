@@ -28,6 +28,7 @@
  */
 package org.firstinspires.ftc.teamcode.Examples;
 
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -59,7 +60,7 @@ public class RobotTeleopMecanumFieldRelativeDrive extends OpMode {
     DcMotor backRightDrive;
 
     // This declares the IMU needed to get the current direction the robot is facing
-    IMU imu;
+    GoBildaPinpointDriver imu;
 
     @Override
     public void init() {
@@ -80,16 +81,7 @@ public class RobotTeleopMecanumFieldRelativeDrive extends OpMode {
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        // This needs to be changed to match the orientation on your robot
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
-
-        RevHubOrientationOnRobot orientationOnRobot = new
-                RevHubOrientationOnRobot(logoDirection, usbDirection);
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
+        imu = hardwareMap.get(GoBildaPinpointDriver.class, "imu");
     }
 
     @Override
@@ -102,7 +94,7 @@ public class RobotTeleopMecanumFieldRelativeDrive extends OpMode {
         // If you press the A button, then you reset the Yaw to be zero from the way
         // the robot is currently pointing
         if (gamepad1.a) {
-            imu.resetYaw();
+            imu.resetPosAndIMU();
         }
         // If you press the left bumper, you get a drive from the point of view of the robot
         // (much like driving an RC vehicle)
@@ -121,7 +113,7 @@ public class RobotTeleopMecanumFieldRelativeDrive extends OpMode {
 
         // Second, rotate angle by the angle the robot is pointing
         theta = AngleUnit.normalizeRadians(theta -
-                imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+                imu.getHeading(AngleUnit.RADIANS));
 
         // Third, convert back to cartesian
         double newForward = r * Math.sin(theta);
