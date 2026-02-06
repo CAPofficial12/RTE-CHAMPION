@@ -17,13 +17,9 @@ public class Pattern extends OpMode {
 
         limelight3A  = hardwareMap.get(Limelight3A.class, "Light");
         limelight3A.pipelineSwitch(7);
+        limelight3A.start();
 
         imu = hardwareMap.get(GoBildaPinpointDriver.class, "imu");
-    }
-
-    @Override
-    public void start(){
-        limelight3A.start();
     }
 
     @Override
