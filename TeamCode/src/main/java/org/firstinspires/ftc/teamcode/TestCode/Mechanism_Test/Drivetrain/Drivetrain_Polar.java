@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test;
+package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Drivetrain;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
