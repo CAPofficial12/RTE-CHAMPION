@@ -74,4 +74,20 @@ public class Intake_Gate extends OpMode {
             Config = false;
         }
     }
+
+    public void gateOpen(){
+        gate.setPosition(gateOpen);
+    }
+
+    public void gateClose(){
+        gate.setPosition(gateClose);
+    }
+
+    public void intake(){
+        Intake.setPower(1);
+    }
+
+    public void stop(){
+        Intake.setPower(0);
+    }
 }

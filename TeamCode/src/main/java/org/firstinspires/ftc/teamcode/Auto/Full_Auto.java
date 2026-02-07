@@ -11,11 +11,10 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Mechanism.Gate;
-import org.firstinspires.ftc.teamcode.Mechanism.Intake;
-import org.firstinspires.ftc.teamcode.Mechanism.Localisation;
-import org.firstinspires.ftc.teamcode.Mechanism.Shooter;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Drivetrain.Localisation;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Mechanism.System_init;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Transfer.Intake_Gate;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "Pedro Pathing Autonomous 3 Segment", group = "Autonomous")
@@ -23,8 +22,7 @@ public class Full_Auto extends OpMode {
 
     System_init system_init = new System_init();
     Shooter shooter = new Shooter();
-    Gate gate = new Gate();
-    Intake intake = new Intake();
+    Intake_Gate intakeGate = new Intake_Gate(); // TODO: Seperate Intake and Gate into seperate files
     Localisation localisation = new Localisation();
     Timer pathTimer;
 
@@ -74,7 +72,7 @@ public class Full_Auto extends OpMode {
         }
 
         distance = follower.getPose().distanceFrom(Goal);
-        intake.Inhale();
+        intakeGate.intake();
         shooter.SpeedCalc(distance);
 
 
@@ -189,9 +187,9 @@ public class Full_Auto extends OpMode {
                 setPathState(1);
                 break;
             case 1:
-                gate.open();
+                intakeGate.gateOpen();
                 if (pathTimer.getElapsedTimeSeconds() > 2) {
-                    gate.close();
+                    intakeGate.gateClose();
                     setPathState(Pathnum);
                     Pathnum += 1;
                     break;
