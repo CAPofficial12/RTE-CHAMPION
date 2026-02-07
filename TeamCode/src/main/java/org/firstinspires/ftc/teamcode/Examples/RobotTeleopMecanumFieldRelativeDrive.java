@@ -29,14 +29,14 @@
 package org.firstinspires.ftc.teamcode.Examples;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
+import java.util.Timer;
+
 /*
  * This OpMode illustrates how to program your robot to drive field relative.  This means
  * that the robot drives the direction you push the joystick regardless of the current orientation
@@ -103,6 +103,8 @@ public class RobotTeleopMecanumFieldRelativeDrive extends OpMode {
         } else {
             driveFieldRelative(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
         }
+
+        imu.update();
     }
 
     // This routine drives the robot field relative
@@ -132,16 +134,15 @@ public class RobotTeleopMecanumFieldRelativeDrive extends OpMode {
         double backRightPower = forward + right - rotate;
         double backLeftPower = forward - right + rotate;
 
-        double maxPower = 1.0;
         double maxSpeed = 1.0;  // make this slower for outreaches
+        double maxPower = 1.0;
 
         // This is needed to make sure we don't pass > 1.0 to any wheel
         // It allows us to keep all of the motors in proportion to what they should
         // be and not get clipped
-        maxPower = Math.max(maxPower, Math.abs(frontLeftPower));
-        maxPower = Math.max(maxPower, Math.abs(frontRightPower));
-        maxPower = Math.max(maxPower, Math.abs(backRightPower));
+        maxPower = Math.max(Math.abs(frontRightPower), Math.abs(frontLeftPower));
         maxPower = Math.max(maxPower, Math.abs(backLeftPower));
+        maxPower = Math.max(maxPower, Math.abs(backRightPower));
 
         // We multiply by maxSpeed so that it can be set lower for outreaches
         // When a young child is driving the robot, we may not want to allow full
