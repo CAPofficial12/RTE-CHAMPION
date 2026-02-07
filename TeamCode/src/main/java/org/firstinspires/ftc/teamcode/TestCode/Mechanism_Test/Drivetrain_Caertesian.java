@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.Mechanism;
+package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "Drivetrain go brrr")
-public class Drivetrain extends OpMode {
+@TeleOp(name = "Rene Drivetrain go brrr")
+public class Drivetrain_Caertesian  extends OpMode {
 
     private TelemetryManager panelsTelemetry;
     DcMotor frontLeftDrive;
