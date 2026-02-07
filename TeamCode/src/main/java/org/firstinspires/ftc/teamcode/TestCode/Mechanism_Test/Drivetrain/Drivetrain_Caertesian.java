@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @TeleOp(name = "Rene Drivetrain go brrr")
 public class Drivetrain_Caertesian  extends OpMode {
 
-    private TelemetryManager panelsTelemetry;
+    public TelemetryManager panelsTelemetry;
     DcMotor frontLeftDrive;
     DcMotor frontRightDrive;
     DcMotor backLeftDrive;
@@ -97,7 +97,7 @@ public class Drivetrain_Caertesian  extends OpMode {
     }
 
 
-    private void driveFieldRelative(double forward, double right, double rotate) {
+    public void driveFieldRelative(double forward, double right, double rotate) {
         double theta = Math.atan2(forward, right);
         double r = Math.hypot(right, forward);
 

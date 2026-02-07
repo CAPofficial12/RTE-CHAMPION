@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @TeleOp(name = "Polar Drivetrain go brrr")
 public class Drivetrain_Polar  extends OpMode {
 
-    private TelemetryManager panelsTelemetry;
+    public TelemetryManager panelsTelemetry;
     DcMotor frontLeftDrive;
     DcMotor frontRightDrive;
     DcMotor backLeftDrive;
