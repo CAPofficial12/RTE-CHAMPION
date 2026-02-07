@@ -25,6 +25,7 @@ public class Localisation extends OpMode {
 
         limelight3A = hardwareMap.get(Limelight3A.class, "limelight");
         limelight3A.pipelineSwitch(0);
+        limelight3A.start();
 
         imu = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
         imu.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
