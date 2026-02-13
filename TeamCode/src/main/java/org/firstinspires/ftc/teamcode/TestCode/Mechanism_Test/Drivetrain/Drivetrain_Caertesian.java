@@ -3,42 +3,24 @@ package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Drivetrain;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init;
 
 @TeleOp(name = "Rene Drivetrain go brrr")
 public class Drivetrain_Caertesian  extends OpMode {
 
     public TelemetryManager panelsTelemetry;
-    DcMotor frontLeftDrive;
-    DcMotor frontRightDrive;
-    DcMotor backLeftDrive;
-    DcMotor backRightDrive;
+    System_init system_init = new System_init();
     boolean Robot = true;
 
-    GoBildaPinpointDriver imu;
 
     @Override
     public void init() {
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");
-        frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
-        backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
-
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        imu = hardwareMap.get(GoBildaPinpointDriver.class, "imu");
+        system_init.init(hardwareMap);
 
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
         panelsTelemetry.debug("Status", "Initialized");
@@ -52,9 +34,9 @@ public class Drivetrain_Caertesian  extends OpMode {
         telemetry.addLine("The left joystick sets the robot direction");
         telemetry.addLine("Moving the right joystick left and right turns the robot");
 
-        panelsTelemetry.debug("X", imu.getPosX(DistanceUnit.INCH));
-        panelsTelemetry.debug("Y", imu.getPosY(DistanceUnit.INCH));
-        panelsTelemetry.debug("Heading", imu.getHeading(AngleUnit.DEGREES));
+        panelsTelemetry.debug("X", system_init.pinpoint.getPosX(DistanceUnit.INCH));
+        panelsTelemetry.debug("Y", system_init.pinpoint.getPosY(DistanceUnit.INCH));
+        panelsTelemetry.debug("Heading", system_init.pinpoint.getHeading(AngleUnit.DEGREES));
         panelsTelemetry.addData("Gamepad 1 X", gamepad1.left_stick_x);
         panelsTelemetry.addData("Gamepad 1 Y", gamepad1.left_stick_y);
         panelsTelemetry.addData("Gamepad 1 Direction", gamepad1.right_stick_x);
@@ -64,7 +46,7 @@ public class Drivetrain_Caertesian  extends OpMode {
         // If you press the A button, then you reset the Yaw to be zero from the way
         // the robot is currently pointing
         if (gamepad1.circle) {
-            imu.resetPosAndIMU();
+            system_init.pinpoint.resetPosAndIMU();
         }
 
         if (Robot) {
@@ -80,20 +62,20 @@ public class Drivetrain_Caertesian  extends OpMode {
         }
 
         if (gamepad1.triangle){
-            frontLeftDrive.setPower(1);
-            frontRightDrive.setPower(1);
-            backLeftDrive.setPower(1);
-            backRightDrive.setPower(1);
+            system_init.frontLeftDrive.setPower(1);
+            system_init.frontRightDrive.setPower(1);
+            system_init.backLeftDrive.setPower(1);
+            system_init.backRightDrive.setPower(1);
         }
 
         if (gamepad1.square){
-            frontLeftDrive.setPower(-1);
-            frontRightDrive.setPower(-1);
-            backLeftDrive.setPower(-1);
-            backRightDrive.setPower(-1);
+            system_init.frontLeftDrive.setPower(-1);
+            system_init.frontRightDrive.setPower(-1);
+            system_init.backLeftDrive.setPower(-1);
+            system_init.backRightDrive.setPower(-1);
         }
 
-        imu.update();
+        system_init.pinpoint.update();
     }
 
 
@@ -102,7 +84,7 @@ public class Drivetrain_Caertesian  extends OpMode {
         double r = Math.hypot(right, forward);
 
         theta = AngleUnit.normalizeRadians(theta -
-                imu.getHeading(AngleUnit.RADIANS));
+                system_init.pinpoint.getHeading(AngleUnit.RADIANS));
 
         // Third, convert back to cartesian
         double newForward = r * Math.sin(theta);
@@ -126,9 +108,9 @@ public class Drivetrain_Caertesian  extends OpMode {
         maxPower = Math.max(maxPower, Math.abs(backRightPower));
 
 
-        frontLeftDrive.setPower(maxSpeed * (frontLeftPower / maxPower));
-        frontRightDrive.setPower(maxSpeed * (frontRightPower / maxPower));
-        backLeftDrive.setPower(maxSpeed * (backLeftPower / maxPower));
-        backRightDrive.setPower(maxSpeed * (backRightPower / maxPower));
+        system_init.frontLeftDrive.setPower(maxSpeed * (frontLeftPower / maxPower));
+        system_init.frontRightDrive.setPower(maxSpeed * (frontRightPower / maxPower));
+        system_init.backLeftDrive.setPower(maxSpeed * (backLeftPower / maxPower));
+        system_init.backRightDrive.setPower(maxSpeed * (backRightPower / maxPower));
     }
 }
