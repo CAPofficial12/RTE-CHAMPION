@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test;
+package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
