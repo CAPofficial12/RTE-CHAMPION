@@ -11,51 +11,45 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init;
 
 @TeleOp(name = "Localisation go brr")
 public class Localisation extends OpMode {
-
-    Limelight3A limelight3A;
-    GoBildaPinpointDriver imu;
+    System_init system = new System_init();
+    Drive drive = new Drive();
     Pose3D position;
-    Drivetrain_Caertesian drivetrainCaertesian = new Drivetrain_Caertesian();
+    boolean Robot;
 
     @Override
     public void init(){
-
-        limelight3A = hardwareMap.get(Limelight3A.class, "limelight");
-        limelight3A.pipelineSwitch(0);
-        limelight3A.start();
-
-        imu = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
-        imu.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        imu.setOffsets(0,0, DistanceUnit.MM);
-        imu.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        imu.recalibrateIMU();
-        imu.resetPosAndIMU();
-        imu.setHeading(90, AngleUnit.RADIANS);
-        imu.setPosition(conversion(getCamPosition()));
-
+        system.init(hardwareMap);
+        system.limelight3A.start();
+        system.pinpoint.setHeading(0, AngleUnit.RADIANS);
+        system.pinpoint.setPosition(conversion(getCamPosition()));
     }
 
 
     @Override
     public void loop(){
-        drivetrainCaertesian.loop();
-        telemetry.addData("Gobilda position", imu.getPosition());
+        drive.drivetrain();
+        merge();
+
+        telemetry.addData("Gobilda position", system.pinpoint.getPosition());
         telemetry.addData("Limelight Pos", getCamPosition());
+        telemetry.addData("Current Position", merge());
         telemetry.update();
-        imu.update();
+        system.pinpoint.update();
     }
 
     public Pose3D getCamPosition(){
-        limelight3A.updateRobotOrientation(imu.getHeading(AngleUnit.RADIANS));
-        LLResult result = limelight3A.getLatestResult();
+        system.limelight3A.updateRobotOrientation(system.pinpoint.getHeading(AngleUnit.RADIANS));
+        LLResult result = system.limelight3A.getLatestResult();
         if (result != null && result.isValid()) {
             position = result.getBotpose_MT2();
-
+            return position;
+        } else {
+            return null;
         }
-        return position;
     }
 
     public Pose2D conversion(@NonNull Pose3D position){
@@ -63,5 +57,21 @@ public class Localisation extends OpMode {
         double y = position.getPosition().y;
         double theta = position.getOrientation().getYaw(AngleUnit.RADIANS);
         return new Pose2D(DistanceUnit.MM, x,y, AngleUnit.RADIANS, theta);
+    }
+
+    public Pose2D merge(){
+
+        if (getCamPosition() == null){
+            return system.pinpoint.getPosition();
+        } else {
+            system.pinpoint.setPosition(conversion(getCamPosition()));
+            return conversion(getCamPosition());
+        }
+    }
+
+    public double target_angle(){
+        double delta_x = merge().getX(DistanceUnit.INCH) - 0;
+        double delta_y = -merge().getY(DistanceUnit.INCH) + 144;
+        return Math.atan2(delta_y, delta_x);
     }
 }
