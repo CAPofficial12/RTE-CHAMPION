@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Running_Code.Auto;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -11,10 +11,12 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Drivetrain.Localisation;
 import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Shooter.Shooter;
-import org.firstinspires.ftc.teamcode.Mechanism.System_init;
-import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Transfer.Intake_Gate;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Transfer.Intake_Gate_Test;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "Pedro Pathing Autonomous 3 Segment", group = "Autonomous")
@@ -22,7 +24,7 @@ public class Full_Auto extends OpMode {
 
     System_init system_init = new System_init();
     Shooter shooter = new Shooter();
-    Intake_Gate intakeGate = new Intake_Gate(); // TODO: Seperate Intake and Gate into seperate files
+    Intake_Gate_Test intakeGate = new Intake_Gate_Test(); // TODO: Separate Intake and Gate into separate files
     Localisation localisation = new Localisation();
     Timer pathTimer;
 
@@ -35,16 +37,14 @@ public class Full_Auto extends OpMode {
     private final Pose BigscorePose = new Pose(45, 98, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
 
     private final Pose pickup1Pose = new Pose(13, 36, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1PoseReverse = new Pose(34, 36, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
 
     private final Pose pickup2Pose = new Pose(15, 64, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2PoseReverse = new Pose(34, 64, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
 
     private final Pose pickup3Pose = new Pose(13, 86, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3PoseReverse = new Pose(34, 86, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
 
     private final Pose Goal = new Pose(5,144);
     double distance;
+
     @Override
     public void init() {
         pathTimer = new Timer();
@@ -58,7 +58,7 @@ public class Full_Auto extends OpMode {
 
     @Override
     public void init_loop() {
-        startPose = localisation.getCamPosition();
+        startPose = PoseConversion(localisation.getCamPosition());
         follower.setStartingPose(startPose);
     }
 
@@ -73,7 +73,7 @@ public class Full_Auto extends OpMode {
 
         distance = follower.getPose().distanceFrom(Goal);
         intakeGate.intake();
-        shooter.SpeedCalc(distance);
+        shooter.statCalc(distance);
 
 
         // Log values to Panels and Driver Station
@@ -154,14 +154,14 @@ public class Full_Auto extends OpMode {
                             new BezierCurve(
                                     new Pose(17.000, 103.000),
                                     new Pose(16.000, 79.000),
-                                    pickup3PoseReverse
+                                    pickup3Pose
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(-90), Math.toRadians(45))
 
                     .addPath(
                             new BezierLine(
-                                    pickup3PoseReverse,
+                                    pickup3Pose,
                                     BigscorePose
                             )
                     )
@@ -188,7 +188,7 @@ public class Full_Auto extends OpMode {
                 break;
             case 1:
                 intakeGate.gateOpen();
-                if (pathTimer.getElapsedTimeSeconds() > 2) {
+                if (pathTimer.getElapsedTimeSeconds() > 1.5) {
                     intakeGate.gateClose();
                     setPathState(Pathnum);
                     Pathnum += 1;
@@ -218,5 +218,12 @@ public class Full_Auto extends OpMode {
     public void setPathState(int pState){
         pathTimer.resetTimer();
         pathState = pState;
+    }
+
+    public Pose PoseConversion(Pose3D position){
+        double x = position.getPosition().x;
+        double y = position.getPosition().y;
+        double theta = position.getOrientation().getYaw(AngleUnit.DEGREES);
+        return new Pose(x,y,theta);
     }
 }
