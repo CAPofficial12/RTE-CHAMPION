@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init
 import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Transfer.Intake_Gate_Test;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "Pedro Pathing Autonomous 3 Segment", group = "Autonomous")
+@Autonomous(name = "Full Pedro Pathing Autonomous")         //TODO: ONLY CHECK ONCE 15 ARTIFACT IS SUCCESSFUL
 public class Full_Auto extends OpMode {
 
     System_init system_init = new System_init();

@@ -16,7 +16,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.geometry.Pose;
 
-@Autonomous(name = "15 Artifact Auto Movement")
+@Autonomous(name = "15 Artifact Auto Movement")                 //TODO: CHECK PATH OF ROBOT TO SEE IF IT MATCHES WITH WHAT WAS PLANNED
 @Configurable // Panels
 public class PedroAutonomous15Artifact extends OpMode {
     private TelemetryManager panelsTelemetry; // Panels Telemetry instance

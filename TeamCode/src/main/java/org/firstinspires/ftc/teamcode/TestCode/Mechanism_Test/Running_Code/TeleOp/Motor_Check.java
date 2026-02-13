@@ -15,7 +15,7 @@ public class Motor_Check extends OpMode {
     }
     
     @Override
-    public void loop(){
+    public void loop(){             //TODO: Check if all motors are rotating ing the correct direction
         if (gamepad1.triangle){
             system.frontLeftDrive.setPower(1);
         } else if (gamepad1.circle) {

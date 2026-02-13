@@ -24,7 +24,7 @@ public class System_init {
         backLeftDrive = Hwmap.get(DcMotorEx.class, "back_left_drive");
         backRightDrive = Hwmap.get(DcMotorEx.class, "back_right_drive");
 
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);                      //TODO: CHECK IF ANY OTHER MOTORS NEED TO BE REVERSED
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
