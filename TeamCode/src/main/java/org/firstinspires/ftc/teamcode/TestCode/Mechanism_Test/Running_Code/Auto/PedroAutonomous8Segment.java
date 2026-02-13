@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Running_Code.Auto;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
@@ -13,9 +13,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "Pedro Pathing Autonomous 3 Segment", group = "Autonomous")
+@Autonomous(name = "Pedro Pathing Autonomous 8 Segment", group = "Autonomous")
 @Configurable // Panels
-public class PedroAutonomous3Segment extends OpMode {
+public class PedroAutonomous8Segment extends OpMode {
 
     private TelemetryManager panelsTelemetry; // Panels Telemetry instance
     public Follower follower; // Pedro Pathing follower instance
@@ -54,6 +54,10 @@ public class PedroAutonomous3Segment extends OpMode {
         public PathChain Path2;
         public PathChain Path3;
         public PathChain Path4;
+        public PathChain Path5;
+        public PathChain Path6;
+        public PathChain Path7;
+        public PathChain Path8;
 
         public Paths(Follower follower) {
             Path1 = follower
@@ -66,16 +70,17 @@ public class PedroAutonomous3Segment extends OpMode {
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
+                    .build();
 
+            Path2 = follower
+                    .pathBuilder()
                     .addPath(
-                            new BezierLine(
-                                    new Pose(13.000, 36.000),
-                                    new Pose(56.000, 8.000))
+                            new BezierLine(new Pose(13.000, 36.000), new Pose(56.000, 8.000))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(110))
                     .build();
 
-            Path2 = follower
+            Path3 = follower
                     .pathBuilder()
                     .addPath(
                             new BezierCurve(
@@ -85,7 +90,10 @@ public class PedroAutonomous3Segment extends OpMode {
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(110), Math.toRadians(180))
+                    .build();
 
+            Path4 = follower
+                    .pathBuilder()
                     .addPath(
                             new BezierCurve(
                                     new Pose(15.000, 64.000),
@@ -96,16 +104,16 @@ public class PedroAutonomous3Segment extends OpMode {
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
                     .build();
 
-            Path3 = follower
+            Path5 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(
-                                    new Pose(45.000, 98.000),
-                                    new Pose(17.000, 103.000)
-                            )
+                            new BezierLine(new Pose(45.000, 98.000), new Pose(17.000, 103.000))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(-90))
+                    .build();
 
+            Path6 = follower
+                    .pathBuilder()
                     .addPath(
                             new BezierCurve(
                                     new Pose(17.000, 103.000),
@@ -114,23 +122,20 @@ public class PedroAutonomous3Segment extends OpMode {
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(-90), Math.toRadians(45))
+                    .build();
 
+            Path7 = follower
+                    .pathBuilder()
                     .addPath(
-                            new BezierLine(
-                                    new Pose(34.000, 86.000),
-                                    new Pose(45.000, 98.000)
-                            )
+                            new BezierLine(new Pose(34.000, 86.000), new Pose(45.000, 98.000))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(135))
                     .build();
 
-            Path4 = follower
+            Path8 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(
-                                    new Pose(45.000, 98.000),
-                                    new Pose(106.000, 33.000)
-                            )
+                            new BezierLine(new Pose(45.000, 98.000), new Pose(106.000, 33.000))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(0))
                     .build();
