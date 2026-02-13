@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.TestCode.Miscallaneous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Mechanism.System_init;
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init;
 
 @Autonomous
 public class StateIntegerPractice extends OpMode {
