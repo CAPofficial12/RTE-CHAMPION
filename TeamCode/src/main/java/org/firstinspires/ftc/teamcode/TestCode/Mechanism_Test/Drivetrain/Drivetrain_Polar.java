@@ -78,7 +78,10 @@ public class Drivetrain_Polar  extends OpMode {
             drive(front, side, turn);
         } else {
             front = Caertesian_Polar(-gamepad1.left_stick_y, gamepad1.left_stick_x)[0];
-            side = Caertesian_Polar(-gamepad1.left_stick_y, gamepad1.left_stick_x)[1] - (2*Math.PI - imu.getHeading(AngleUnit.RADIANS)); // TODO: Check if the imu records 0-360 or -180 - 180
+
+            // TODO: Check if the imu records 0-360 or -180 - 180
+            side = Caertesian_Polar(-gamepad1.left_stick_y, gamepad1.left_stick_x)[1] - (2*Math.PI - imu.getHeading(AngleUnit.RADIANS));
+
             turn = gamepad1.right_stick_x;
             drive(front, side, turn);
         }

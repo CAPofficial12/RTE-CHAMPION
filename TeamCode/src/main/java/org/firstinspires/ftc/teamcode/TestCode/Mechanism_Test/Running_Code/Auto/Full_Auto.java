@@ -19,12 +19,16 @@ import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init
 import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Transfer.Intake_Gate_Test;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "Full Pedro Pathing Autonomous")         //TODO: ONLY CHECK ONCE 15 ARTIFACT IS SUCCESSFUL
+//TODO: ONLY CHECK ONCE 15 ARTIFACT IS SUCCESSFUL
+@Autonomous(name = "Full Pedro Pathing Autonomous")
 public class Full_Auto extends OpMode {
 
     System_init system_init = new System_init();
     Shooter shooter = new Shooter();
-    Intake_Gate_Test intakeGate = new Intake_Gate_Test(); // TODO: Separate Intake and Gate into separate files
+
+    // TODO: Separate Intake and Gate into separate files
+    Intake_Gate_Test intakeGate = new Intake_Gate_Test();
+
     Localisation localisation = new Localisation();
     Timer pathTimer;
 

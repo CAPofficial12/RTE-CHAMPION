@@ -52,12 +52,14 @@ public class Intake_Gate_Test extends OpMode {
         telemetry.update();
     }
 
-    public void gateOpen(){                 // TODO: Get values for open gate
+    // TODO: Get values for open gate
+    public void gateOpen(){
         system.gateLeft.setPosition(0);
         system.gateRight.setPosition(0);
     }
 
-    public void gateClose(){                //TODO: Get values for closed gate
+    //TODO: Get values for closed gate
+    public void gateClose(){
         system.gateLeft.setPosition(1);
         system.gateRight.setPosition(1);
     }

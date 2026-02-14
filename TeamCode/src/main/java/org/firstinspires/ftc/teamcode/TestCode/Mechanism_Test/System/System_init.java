@@ -14,7 +14,8 @@ public class System_init {
    public DcMotorEx frontLeftDrive, frontRightDrive, backLeftDrive, backRightDrive;
    public DcMotorEx intake, transfer;
    public DcMotorEx shooter;
-   public Servo Hood, gateLeft, gateRight;
+   public Servo HoodTop, HoodLeft,HoodRight;
+   public Servo gateLeft, gateRight;
    public GoBildaPinpointDriver pinpoint;
    public Limelight3A limelight3A;
 
@@ -24,7 +25,8 @@ public class System_init {
         backLeftDrive = Hwmap.get(DcMotorEx.class, "back_left_drive");
         backRightDrive = Hwmap.get(DcMotorEx.class, "back_right_drive");
 
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);                      //TODO: CHECK IF ANY OTHER MOTORS NEED TO BE REVERSED
+        //TODO: CHECK IF ANY OTHER MOTORS NEED TO BE REVERSED
+        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -49,7 +51,10 @@ public class System_init {
         shooter = Hwmap.get(DcMotorEx.class, "shooter");
         transfer = Hwmap.get(DcMotorEx.class, "Transfer");
 
-        Hood = Hwmap.get(Servo.class, "Hood");
+        HoodTop = Hwmap.get(Servo.class, "HoodT");
+        HoodLeft = Hwmap.get(Servo.class, "HoodL");
+        HoodRight = Hwmap.get(Servo.class, "HoodR");
+
         gateLeft = Hwmap.get(Servo.class, "GateL");
         gateRight = Hwmap.get(Servo.class, "GateR");
         gateRight.setDirection(Servo.Direction.REVERSE);

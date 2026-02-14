@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init;
 
+//TODO: Check if all motors are rotating ing the correct direction
 @TeleOp(name = "Motor Check")
 public class Motor_Check extends OpMode {
     System_init system = new System_init();
@@ -15,7 +16,7 @@ public class Motor_Check extends OpMode {
     }
     
     @Override
-    public void loop(){             //TODO: Check if all motors are rotating ing the correct direction
+    public void loop(){
         if (gamepad1.triangle){
             system.frontLeftDrive.setPower(1);
         } else if (gamepad1.circle) {

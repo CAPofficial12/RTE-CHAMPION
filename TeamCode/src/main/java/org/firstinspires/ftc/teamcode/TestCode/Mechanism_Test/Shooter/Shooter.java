@@ -7,7 +7,8 @@ public class Shooter{
 
     System_init system_init = new System_init();
 
-    public void shooter_speed(){  //TODO: add all shoooter commands here
+    //TODO: add all shoooter commands here
+    public void shooter_speed(){
         double target_speed = statCalc(50)[0];
         double target_hood = statCalc(50)[1];
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(0,0,0,0);
@@ -16,7 +17,8 @@ public class Shooter{
         system_init.Hood.setPosition(target_hood);
     }
 
-    public double[] statCalc(double distance){ //TODO: Get an approximation of an equation for the shooter velocity and hood angle needed to score from each distance
+    //TODO: Get an approximation of an equation for the shooter velocity and hood angle needed to score from each distance
+    public double[] statCalc(double distance){
         double[] placeholder = {1,2};
         return placeholder;
     }

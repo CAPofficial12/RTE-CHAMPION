@@ -16,7 +16,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(16.2)         //TODO: CHECK MASS OF ROBOT
+
+            //TODO: CHECK MASS OF ROBOT
+            .mass(16.2)
+
             .forwardZeroPowerAcceleration(-25.9346931313679598)
             .lateralZeroPowerAcceleration(-67.342491844080064)
             .translationalPIDFCoefficients(new PIDFCoefficients(
@@ -70,16 +73,23 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(78.261926752421046666666666666667)               //TODO: CHECK IF X AND Y VELOCITIES ARE CORRECT THROUGH TESTING
+
+            //TODO: CHECK IF X AND Y VELOCITIES ARE CORRECT THROUGH TESTING
+            .xVelocity(78.261926752421046666666666666667)
             .yVelocity(61.494551922189565);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(-5)            //TODO: MEASURE POD OFFSET FROM CENTRE IN INCHES
+
+            //TODO: MEASURE POD OFFSET FROM CENTRE IN INCHES
+            .forwardPodY(-5)
             .strafePodX(0.5)
+
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("pinpoint")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)            //TODO: Check IF POD ORIENTATIONS ARE CORRECT
+
+            //TODO: Check IF POD ORIENTATIONS ARE CORRECT
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
     /**

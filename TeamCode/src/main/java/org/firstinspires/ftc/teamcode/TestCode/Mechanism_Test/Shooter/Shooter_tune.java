@@ -20,14 +20,18 @@ public class Shooter_tune extends OpMode {
     double Kd = 0;
     double Kf = 0;
     double target_speed = 1000;
-    double testing_hood = 0;
+    double testing_hoodT = 0;
+    double testing_hoodR = 0;
+    double testing_hoodL = 0;
 
     @Override
     public void init() {
         system_init.init(hardwareMap);
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(Kp, Ki, Kd, Kf);
         system_init.shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-        testing_hood = system_init.Hood.getPosition();
+        testing_hoodT = system_init.HoodTop.getPosition();
+        testing_hoodL = system_init.HoodLeft.getPosition();
+        testing_hoodR = system_init.HoodRight.getPosition();
         telemetry.addLine("Init Complete");
     }
 
@@ -35,7 +39,9 @@ public class Shooter_tune extends OpMode {
     public void loop() {
 
         if (gamepad1.rightStickButtonWasReleased()){
-            target_speed += mode * step[a];
+            target_speed += step[a];
+        } else if (gamepad1.leftBumperWasPressed()){
+            target_speed -= step[a];
         }
 
         if (gamepad1.rightBumperWasPressed()) {
@@ -44,13 +50,25 @@ public class Shooter_tune extends OpMode {
             a -= 1;
         }
 
-        if (gamepad1.dpad_right) {
-            mode = 1;
-        } else if (gamepad1.dpad_left) {
-            mode = -1;
+        if (gamepad1.squareWasPressed()){
+            testing_hoodT += step[a];
+        } else if (gamepad1.triangleWasPressed()) {
+            testing_hoodT -= step[a];
         }
 
-        if (gamepad1.squareWasPressed()) {
+        if (gamepad1.circleWasPressed()){
+            testing_hoodL += step[a];
+        } else if (gamepad1.crossWasPressed()) {
+            testing_hoodL -= step[a];
+        }
+
+        if (gamepad1.dpadUpWasPressed()){
+            testing_hoodR += step[a];
+        } else if (gamepad1.dpadDownWasPressed()) {
+            testing_hoodR -= step[a];
+        }
+
+        /* if (gamepad1.squareWasPressed()) {
             Kp += mode * step[a];
         } else if (gamepad1.triangleWasPressed()) {
             Ki += mode * step[a];
@@ -58,20 +76,17 @@ public class Shooter_tune extends OpMode {
             Kd += mode * step[a];
         } else if (gamepad1.crossWasPressed()) {
             Kf += mode * step[a];
-        } else if (gamepad1.dpadUpWasPressed()){
-            testing_hood += step[a];
-        } else if (gamepad1.dpadLeftWasPressed()) {
-            testing_hood += step[a];
-        } else if (gamepad1.dpadLeftWasPressed()) {
-            target_speed = 1000;
-        } else if (gamepad1.dpadRightWasPressed()){
-            target_speed = 2000;
         }
+         */
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(Kp, Ki, Kd, Kf);
         system_init.shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         system_init.shooter.setVelocity(target_speed);
-        system_init.Hood.setPosition(testing_hood);
+
+        system_init.HoodTop.setPosition(testing_hoodT);
+        system_init.HoodLeft.setPosition(testing_hoodL);
+        system_init.HoodRight.setPosition(testing_hoodR);
+
         double currentVelocity = system_init.shooter.getVelocity();
         double error = target_speed - currentVelocity;
 
@@ -87,9 +102,11 @@ public class Shooter_tune extends OpMode {
         telemetry.addData("Kf", Kf);
         telemetry.update();
     }
-    public double[] StatCalc(){ //TODO: Get an approximation of an equation for the shooter velocity and hood angle needed to score from each distance
-        double[] palceholder = {1,2};
-        return palceholder;
+
+    //TODO: Get an approximation of an equation for the shooter velocity and hood angle needed to score from each distance
+    public double[] StatCalc(){
+        double[] placeholder = {1,2};
+        return placeholder;
     }
 }
 
