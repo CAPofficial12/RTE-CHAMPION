@@ -50,36 +50,22 @@ public class Drivetrain_Caertesian  extends OpMode {
         }
 
         if (Robot) {
-            drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            DT_power(drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x));
         } else {
-            driveFieldRelative(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            DT_power(driveFieldRelative(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x));
         }
 
-        if (gamepad1.left_bumper){
+        if (gamepad1.left_bumper) {
             Robot = true;
-        } else if(gamepad1.right_bumper)  {
+        } else if (gamepad1.right_bumper) {
             Robot = false;
-        }
-
-        if (gamepad1.triangle){
-            system_init.frontLeftDrive.setPower(1);
-            system_init.frontRightDrive.setPower(1);
-            system_init.backLeftDrive.setPower(1);
-            system_init.backRightDrive.setPower(1);
-        }
-
-        if (gamepad1.square){
-            system_init.frontLeftDrive.setPower(-1);
-            system_init.frontRightDrive.setPower(-1);
-            system_init.backLeftDrive.setPower(-1);
-            system_init.backRightDrive.setPower(-1);
         }
 
         system_init.pinpoint.update();
     }
 
 
-    public void driveFieldRelative(double forward, double right, double rotate) {
+    public double[] driveFieldRelative(double forward, double right, double rotate) {
         double theta = Math.atan2(forward, right);
         double r = Math.hypot(right, forward);
 
@@ -90,10 +76,10 @@ public class Drivetrain_Caertesian  extends OpMode {
         double newForward = r * Math.sin(theta);
         double newRight = r * Math.cos(theta);
 
-        drive(newForward, newRight, rotate);
+        return drive(newForward, newRight, rotate);
     }
 
-    public void drive(double forward, double right, double rotate) {
+    public double[] drive(double forward, double right, double rotate) {
 
         double frontLeftPower = forward + right + rotate;
         double frontRightPower = forward - right - rotate;
@@ -107,10 +93,19 @@ public class Drivetrain_Caertesian  extends OpMode {
         maxPower = Math.max(maxPower, Math.abs(backLeftPower));
         maxPower = Math.max(maxPower, Math.abs(backRightPower));
 
+        double frontLeftDrive = (maxSpeed * (frontLeftPower / maxPower));
+        double frontRightDrive = (maxSpeed * (frontRightPower / maxPower));
+        double backLeftDrive = (maxSpeed * (backLeftPower / maxPower));
+        double backRightDrive = (maxSpeed * (backRightPower / maxPower));
 
-        system_init.frontLeftDrive.setPower(maxSpeed * (frontLeftPower / maxPower));
-        system_init.frontRightDrive.setPower(maxSpeed * (frontRightPower / maxPower));
-        system_init.backLeftDrive.setPower(maxSpeed * (backLeftPower / maxPower));
-        system_init.backRightDrive.setPower(maxSpeed * (backRightPower / maxPower));
+        double[] values = {frontLeftDrive, frontRightDrive, backLeftDrive, backRightDrive};
+        return values;
+    }
+
+    public void DT_power(double[] powers){
+        system_init.frontLeftDrive.setPower(powers[0]);
+        system_init.frontRightDrive.setPower(powers[1]);
+        system_init.backLeftDrive.setPower(powers[2]);
+        system_init.backRightDrive.setPower(powers[3]);
     }
 }

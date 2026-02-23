@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -13,11 +16,10 @@ public class System_init {
 
    public DcMotorEx frontLeftDrive, frontRightDrive, backLeftDrive, backRightDrive;
    public DcMotorEx intake, transfer;
-   public DcMotorEx shooter;
-   public Servo HoodTop, HoodLeft,HoodRight;
-   public Servo gateLeft, gateRight;
+   public DcMotorEx shooter, HoodTop;
    public GoBildaPinpointDriver pinpoint;
    public Limelight3A limelight3A;
+   public DistanceSensor Brake;
 
     public void init (HardwareMap Hwmap){
         frontLeftDrive = Hwmap.get(DcMotorEx.class, "front_left_drive");
@@ -26,8 +28,7 @@ public class System_init {
         backRightDrive = Hwmap.get(DcMotorEx.class, "back_right_drive");
 
         //TODO: CHECK IF ANY OTHER MOTORS NEED TO BE REVERSED
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -48,18 +49,19 @@ public class System_init {
         pinpoint.setHeading(Math.PI/2, AngleUnit.RADIANS);
 
         intake = Hwmap.get(DcMotorEx.class, "intake");
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+
         shooter = Hwmap.get(DcMotorEx.class, "shooter");
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+
         transfer = Hwmap.get(DcMotorEx.class, "Transfer");
+        transfer.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        HoodTop = Hwmap.get(Servo.class, "HoodT");
-        HoodLeft = Hwmap.get(Servo.class, "HoodL");
-        HoodRight = Hwmap.get(Servo.class, "HoodR");
+        HoodTop = Hwmap.get(DcMotorEx.class, "Hood");
+        HoodTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        gateLeft = Hwmap.get(Servo.class, "GateL");
-        gateRight = Hwmap.get(Servo.class, "GateR");
-        gateRight.setDirection(Servo.Direction.REVERSE);
+        Brake = Hwmap.get(DistanceSensor.class, "Brake");
 
-        limelight3A = Hwmap.get(Limelight3A.class, "limelight");
-        limelight3A.pipelineSwitch(6);
     }
 }

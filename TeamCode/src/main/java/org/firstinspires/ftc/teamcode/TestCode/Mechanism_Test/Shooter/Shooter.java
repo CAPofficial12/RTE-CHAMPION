@@ -14,7 +14,7 @@ public class Shooter{
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(0,0,0,0);
         system_init.shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         system_init.shooter.setVelocity(target_speed);
-        system_init.Hood.setPosition(target_hood);
+        system_init.HoodTop.setTargetPosition((int) target_hood);
     }
 
     //TODO: Get an approximation of an equation for the shooter velocity and hood angle needed to score from each distance

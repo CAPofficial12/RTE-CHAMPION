@@ -10,9 +10,9 @@ import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init
 @TeleOp(name = "Shooter Tuning")
 public class Shooter_tune extends OpMode {
     System_init system_init = new System_init();
+    PIDFCoefficients pidfCoefficients;
 
     double[] step = {10000, 1000,100,10,1,0.1,0.01,0.001, 0.001};
-
     int a = 0;
     int mode = 1;
     double Kp = 0;
@@ -20,18 +20,21 @@ public class Shooter_tune extends OpMode {
     double Kd = 0;
     double Kf = 0;
     double target_speed = 1000;
-    double testing_hoodT = 0;
-    double testing_hoodR = 0;
-    double testing_hoodL = 0;
+    int testing_hoodT = 0;
 
     @Override
     public void init() {
         system_init.init(hardwareMap);
+
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(Kp, Ki, Kd, Kf);
         system_init.shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-        testing_hoodT = system_init.HoodTop.getPosition();
-        testing_hoodL = system_init.HoodLeft.getPosition();
-        testing_hoodR = system_init.HoodRight.getPosition();
+
+
+        testing_hoodT = system_init.HoodTop.getCurrentPosition();
+        system_init.HoodTop.setTargetPosition(testing_hoodT);
+        system_init.HoodTop.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        system_init.HoodTop.setPower(1);
+
         telemetry.addLine("Init Complete");
     }
 
@@ -40,7 +43,7 @@ public class Shooter_tune extends OpMode {
 
         if (gamepad1.rightStickButtonWasReleased()){
             target_speed += step[a];
-        } else if (gamepad1.leftBumperWasPressed()){
+        } else if (gamepad1.leftStickButtonWasPressed()){
             target_speed -= step[a];
         }
 
@@ -50,25 +53,19 @@ public class Shooter_tune extends OpMode {
             a -= 1;
         }
 
-        if (gamepad1.squareWasPressed()){
-            testing_hoodT += step[a];
-        } else if (gamepad1.triangleWasPressed()) {
-            testing_hoodT -= step[a];
+        if (gamepad1.dpadRightWasPressed()){
+            testing_hoodT += (int) step[a];
+        } else if (gamepad1.dpadLeftWasPressed()) {
+            testing_hoodT -= (int) step[a];
         }
 
-        if (gamepad1.circleWasPressed()){
-            testing_hoodL += step[a];
-        } else if (gamepad1.crossWasPressed()) {
-            testing_hoodL -= step[a];
+        if (gamepad1.dpad_up){
+            mode = 1;
+        } else if (gamepad1.dpad_down) {
+            mode = -1;
         }
 
-        if (gamepad1.dpadUpWasPressed()){
-            testing_hoodR += step[a];
-        } else if (gamepad1.dpadDownWasPressed()) {
-            testing_hoodR -= step[a];
-        }
-
-        /* if (gamepad1.squareWasPressed()) {
+        if (gamepad1.squareWasPressed()) {
             Kp += mode * step[a];
         } else if (gamepad1.triangleWasPressed()) {
             Ki += mode * step[a];
@@ -77,15 +74,12 @@ public class Shooter_tune extends OpMode {
         } else if (gamepad1.crossWasPressed()) {
             Kf += mode * step[a];
         }
-         */
-
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(Kp, Ki, Kd, Kf);
+        pidfCoefficients = new PIDFCoefficients(Kp, Ki,Kd, Kf);
         system_init.shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-        system_init.shooter.setVelocity(target_speed);
 
-        system_init.HoodTop.setPosition(testing_hoodT);
-        system_init.HoodLeft.setPosition(testing_hoodL);
-        system_init.HoodRight.setPosition(testing_hoodR);
+
+        system_init.HoodTop.setTargetPosition(testing_hoodT);
+        system_init.shooter.setVelocity(target_speed);
 
         double currentVelocity = system_init.shooter.getVelocity();
         double error = target_speed - currentVelocity;
@@ -95,6 +89,8 @@ public class Shooter_tune extends OpMode {
         telemetry.addData("Error", error);
         telemetry.addData("Mode", mode);
         telemetry.addData("Step", step[a]);
+        telemetry.addData("Hood angle", testing_hoodT);
+        telemetry.addData("True Hoo dAngle", system_init.HoodTop.getCurrentPosition());
         telemetry.addLine("------------------------------------------");
         telemetry.addData("Kp", Kp);
         telemetry.addData("Ki", Ki);
@@ -109,5 +105,3 @@ public class Shooter_tune extends OpMode {
         return placeholder;
     }
 }
-
-

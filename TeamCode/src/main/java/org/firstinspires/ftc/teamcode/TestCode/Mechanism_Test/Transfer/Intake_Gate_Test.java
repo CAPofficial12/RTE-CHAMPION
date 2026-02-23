@@ -15,8 +15,6 @@ public class Intake_Gate_Test extends OpMode {
     @Override
     public void init(){
         system.init(hardwareMap);
-        gatePosL = system.gateLeft.getPosition();
-        gatePosR = system.gateRight.getPosition();
         telemetry.addLine("Init Complete");
     }
 
@@ -42,28 +40,16 @@ public class Intake_Gate_Test extends OpMode {
             gatePosR -= 0.1;
         }
 
-        system.gateRight.setPosition(gatePosL);
-        system.gateLeft.setPosition(gatePosR);
-
         telemetry.addData("Intake Power", system.intake.getPower());
         telemetry.addData("Transfer Power", system.transfer.getPower());
-        telemetry.addData("Gate Left position", system.gateLeft.getPosition());
-        telemetry.addData("Gate Right position", system.gateRight.getPosition());
         telemetry.update();
     }
 
     // TODO: Get values for open gate
     public void gateOpen(){
-        system.gateLeft.setPosition(0);
-        system.gateRight.setPosition(0);
     }
 
     //TODO: Get values for closed gate
-    public void gateClose(){
-        system.gateLeft.setPosition(1);
-        system.gateRight.setPosition(1);
-    }
-
     public void intake(){
         system.intake.setPower(1);
         system.transfer.setPower(1);

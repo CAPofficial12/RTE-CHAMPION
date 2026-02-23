@@ -193,7 +193,6 @@ public class Full_Auto extends OpMode {
             case 1:
                 intakeGate.gateOpen();
                 if (pathTimer.getElapsedTimeSeconds() > 1.5) {
-                    intakeGate.gateClose();
                     setPathState(Pathnum);
                     Pathnum += 1;
                     break;
