@@ -49,19 +49,22 @@ public class System_init {
         pinpoint.setHeading(Math.PI/2, AngleUnit.RADIANS);
 
         intake = Hwmap.get(DcMotorEx.class, "intake");
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorEx.Direction.REVERSE);
 
         shooter = Hwmap.get(DcMotorEx.class, "shooter");
-        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        shooter.setDirection(DcMotorEx.Direction.REVERSE);
 
         transfer = Hwmap.get(DcMotorEx.class, "Transfer");
-        transfer.setDirection(DcMotorSimple.Direction.REVERSE);
+        transfer.setDirection(DcMotorEx.Direction.REVERSE);
 
         HoodTop = Hwmap.get(DcMotorEx.class, "Hood");
-        HoodTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        HoodTop.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        HoodTop.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         Brake = Hwmap.get(DistanceSensor.class, "Brake");
 
+        limelight3A = Hwmap.get(Limelight3A.class, "limelight");
+        limelight3A.pipelineSwitch(0);
     }
 }

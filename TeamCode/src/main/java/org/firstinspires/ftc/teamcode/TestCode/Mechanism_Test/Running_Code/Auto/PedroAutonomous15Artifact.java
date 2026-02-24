@@ -69,7 +69,7 @@ public class PedroAutonomous15Artifact extends OpMode {
         public Paths(Follower follower) {
             Path1 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(67.831, 137.747),
+                                    new Pose(67.831, 851985),
 
                                     new Pose(67.571, 117.423)
                             )

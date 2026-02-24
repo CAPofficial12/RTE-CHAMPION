@@ -18,49 +18,32 @@ public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
 
             //TODO: CHECK MASS OF ROBOT
-            .mass(16.2)
+            .mass(12)
 
-            .forwardZeroPowerAcceleration(-25.9346931313679598)
-            .lateralZeroPowerAcceleration(-67.342491844080064)
+            .forwardZeroPowerAcceleration(-62.34218158338062)
+            .lateralZeroPowerAcceleration(-99.59847100544052)
+
             .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.03,
+                    0.15,
                     0,
-                    0,
-                    0.015
+                    0.01,
+                    0.03
             ))
-            .translationalPIDFSwitch(4)
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
-                    0.4,
-                    0,
-                    0.005,
-                    0.0006
-            ))
+
             .headingPIDFCoefficients(new PIDFCoefficients(
-                    0.8,
+                    3,
                     0,
-                    0,
-                    0.01
-            ))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(
-                    2.5,
-                    0,
-                    0.1,
-                    0.0005
+                    0.2,
+                    0.03
             ))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(
+                    1,
+                    0,
                     0.1,
-                    0,
-                    0.00035,
                     0.6,
-                    0.015
+                    0.05
             ))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(
-                    0.02,
-                    0,
-                    0.000005,
-                    0.6,
-                    0.01
-            ))
+
             .drivePIDFSwitch(15)
             .centripetalScaling(0.0005);
 
@@ -69,28 +52,25 @@ public class Constants {
             .leftRearMotorName("back_left_drive")
             .rightFrontMotorName("front_right_drive")
             .rightRearMotorName("back_right_drive")
-            .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
 
             //TODO: CHECK IF X AND Y VELOCITIES ARE CORRECT THROUGH TESTING
-            .xVelocity(78.261926752421046666666666666667)
-            .yVelocity(61.494551922189565);
+            .xVelocity(57.86966110589937)
+            .yVelocity(50.83972792738066);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
 
-            //TODO: MEASURE POD OFFSET FROM CENTRE IN INCHES
-            .forwardPodY(-5)
-            .strafePodX(0.5)
-
-            .distanceUnit(DistanceUnit.INCH)
+            .forwardPodY(9)
+            .strafePodX(0)
+            .distanceUnit(DistanceUnit.CM)
             .hardwareMapName("pinpoint")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
 
-            //TODO: Check IF POD ORIENTATIONS ARE CORRECT
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
-            .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+            .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
     /**
      These are the PathConstraints in order:
