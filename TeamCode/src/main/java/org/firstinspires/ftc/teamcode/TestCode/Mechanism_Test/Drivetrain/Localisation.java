@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.Drivetrain;
 import androidx.annotation.NonNull;
 
 import com.bylazar.field.FieldManager;
+import com.bylazar.field.PanelsField;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -21,45 +23,32 @@ import java.util.Timer;
 @TeleOp(name = "Localisation go brr")
 public class Localisation extends OpMode {
     System_init system = new System_init();
-    Drive drive = new Drive();
     TelemetryManager telemetryManager;
-    FieldManager fieldManager;
     Pose3D position;
     ElapsedTime clock_speed = new ElapsedTime();
-    boolean Robot;
 
     @Override
     public void init(){
         system.init(hardwareMap);
-        fieldManager.init();
-        telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
-        system.limelight3A.start();
-        system.pinpoint.setHeading(0, AngleUnit.RADIANS);
     }
 
     @Override
     public void start(){
-        system.pinpoint.setPosition(conversion(getCamPosition()));
+        system.limelight3A.start();
     }
 
     @Override
     public void loop(){
-        drive.drivetrain();
-        merge();
-
+        system.limelight3A.updateRobotOrientation(system.pinpoint.getHeading(AngleUnit.DEGREES));
+        LLResult result = system.limelight3A.getLatestResult();
         //TODO: CHECK IF PANELS WORK
-        fieldManager.clearFill();
-        fieldManager.moveCursor(merge().getX(DistanceUnit.INCH), merge().getY(DistanceUnit.INCH));
-        fieldManager.circle(1);
 
-        telemetryManager.debug("Gobilda position", system.pinpoint.getPosition());
-        telemetryManager.debug("Limelight Pos", getCamPosition());
-        telemetryManager.debug("Current Position", merge());
-        telemetryManager.debug("Clock Speed", 1/clock_speed.seconds());
-
-        telemetry.addData("Gobilda position", system.pinpoint.getPosition());
-        telemetry.addData("Limelight Pos", getCamPosition());
-        telemetry.addData("Current Position", merge());
+        telemetry.addData("Limelight result", system.limelight3A.getLatestResult());
+        telemetry.addData("Limelight Ta", result.getTa());
+        telemetry.addData("Megatag 2", result.getBotpose_MT2());
+        telemetry.addData("MegaTag1", result.getBotpose());
+        telemetry.addData("Distance", result.getBotposeAvgDist());
+        telemetry.addData("Clock Speed", 1/clock_speed.seconds());
         telemetry.addData("Clock Speed", 1/clock_speed.seconds());
         telemetry.update();
         system.pinpoint.update();
@@ -78,10 +67,24 @@ public class Localisation extends OpMode {
     }
 
     public Pose2D conversion(@NonNull Pose3D position){
-        double x = position.getPosition().x;
-        double y = position.getPosition().y;
+        double x = position.getPosition().x * 39.3701 + 72;
+        double y = position.getPosition().y * 39.3701 + 72;
         double theta = position.getOrientation().getYaw(AngleUnit.RADIANS);
         return new Pose2D(DistanceUnit.MM, x,y, AngleUnit.RADIANS, theta);
+    }
+
+    public Pose conversionPose(Pose2D position){
+        double x = position.getX(DistanceUnit.INCH);
+        double y = position.getY(DistanceUnit.INCH);
+        double theta = position.getHeading(AngleUnit.RADIANS);
+        return new Pose(x,y,theta);
+    }
+
+    public Pose conversion3D(Pose3D position){
+        double x = position.getPosition().x * 39.3701 + 72;
+        double y = position.getPosition().y * 39.3701 + 72;
+        double theta = position.getOrientation().getYaw(AngleUnit.RADIANS);
+        return new Pose(x,y,theta);
     }
 
     public Pose2D merge(){
@@ -98,5 +101,7 @@ public class Localisation extends OpMode {
         double delta_x = merge().getX(DistanceUnit.INCH) - 0;
         double delta_y = -merge().getY(DistanceUnit.INCH) + 144;
         return Math.PI - Math.atan2(delta_y, delta_x);
+
     }
+
 }

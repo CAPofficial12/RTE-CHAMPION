@@ -25,6 +25,8 @@ import com.pedropathing.util.*;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.TestCode.Mechanism_Test.System.System_init;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -963,6 +965,8 @@ class DriveTuner extends OpMode {
  * @version 1.0, 3/12/2024
  */
 class Line extends OpMode {
+    System_init system_init = new System_init();
+
     public static double DISTANCE = 40;
     private boolean forward = true;
 
@@ -972,6 +976,7 @@ class Line extends OpMode {
     @Override
     public void init() {
         follower.setStartingPose(new Pose(72, 72));
+
     }
 
     /** This initializes the Follower and creates the forward and backward Paths. */
@@ -989,7 +994,6 @@ class Line extends OpMode {
     public void start() {
         follower.activateAllPIDFs();
         forwards = new Path(new BezierLine(new Pose(72,72), new Pose(DISTANCE + 72,72)));
-        forwards.setConstantHeadingInterpolation(0);
         backwards = new Path(new BezierLine(new Pose(DISTANCE + 72,72), new Pose(72,72)));
         backwards.setConstantHeadingInterpolation(0);
         follower.followPath(forwards);
@@ -1002,13 +1006,12 @@ class Line extends OpMode {
         draw();
 
         if (!follower.isBusy()) {
-            if (forward) {
-                forward = false;
-                follower.followPath(backwards);
-            } else {
                 forward = true;
                 follower.followPath(forwards);
-            }
+        }
+
+        if (follower.atParametricEnd()){
+            stopRobot();
         }
 
         telemetryM.debug("Driving Forward?: " + forward);
@@ -1217,7 +1220,7 @@ class Circle extends OpMode {
  * @author Lazar - 19234
  * @version 1.1, 5/19/2025
  */
-public class Drawing {
+class Drawing {
     public static final double ROBOT_RADIUS = 9; // woah
     private static final FieldManager panelsField = PanelsField.INSTANCE.getField();
 
